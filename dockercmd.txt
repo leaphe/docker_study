@@ -1,0 +1,315 @@
+docker info
+
+docker —version
+
+
+docker ps
+
+
+查看容器内的标准输出
+docker logs 2b1b7a428627
+
+docker stop 2b1b7a428627
+
+docker pull training/webapp  # 载入镜像
+
+
+#docker start ID/名字
+#docker ps -l 查询最后一次创建的容器：
+#docker stop ID/名字
+
+
+https://blog.csdn.net/weixin_38416579/article/details/80859265
+
+docker pull daocloud.io/centos:7
+docker images
+cd ~/documents
+mkdir sofeware
+pwd
+docker run -i -t -v /Users/hexizan/documents/sofeware/:/mnt/software/ 9f38484d220f /bin/bash
+pwd
+ls
+cd /mnt/software
+tar -zxf jdk-8u144-linux-x64.gz
+mv jdk-8u144-linux-x64 jdk
+
+
+
+vi ~/.bashrc
+然后，在该文件末尾添加如下配置：
+export JAVA_HOME=/mnt/software/jdk
+export PATH=$PATH:$JAVA_HOME/bin
+
+source ~/.bashrc
+java -version
+
+
+
+vi /root/run.sh
+
+chmod u+x /root/run.sh
+
+#!/bin/bash
+source ~/.bashrc
+sh /mnt/software/tomcat/bin/catalina.sh run
+
+
+docker commit 3616ab330916 davis/javaweb:0.1
+
+docker run -d -v /Users/hexizan/documents/sofeware/:/mnt/software/ -p 8080:8080  be515a75aee6 /root/run.sh
+docker run -d -v /Users/hexizan/documents/sofeware/:/mnt/software/ -p 58080:8080 --name javaweb be515a75aee6 /root/run.sh
+docker run -d -v /Users/hexizan/documents/sofeware/:/mnt/software/  --name javaweb6 be515a75aee6 
+docker run -d -v /Users/hexizan/documents/sofeware/:/mnt/software/ -P be515a75aee6 /root/run.sh
+
+docker exec -it 16654b15d9fc /bin/bash
+
+docker ps  
+docker exec -it c946e8d61f0a /bin/bash
+java -version
+cd /mnt/software/
+ls
+echo $JAVA_HOME
+cat ~/.bashrc
+cat /root/run.sh
+exit
+
+docker images
+docker run -d -v /Users/hexizan/documents/sofeware/:/mnt/software/ 9f38484d220f /bin/bash
+docker ps -a
+docker exec -it 1f7d4a16f20e /bin/bash
+
+
+docker pull hello-world
+docker run hello-world
+
+docker images
+docker run --name nginx-test -p 8081:80 -d 719cd2e3ed04
+docker run --name runoob-nginx-test -p 8081:80 -d nginx
+docker run  -p 8081:80 -d nginx
+http://127.0.0.1:8081/
+
+docker ps
+#进入容器
+docker exec -it 1ef1881fc911 bash
+pwd
+ls
+which nginx
+#退出容器
+exit
+
+find / -name "index.html"
+
+apt-get update
+apt-get install vim
+vi /usr/share/nginx/html/index.html
+docker commit 8c3881bc53c2 davis/nginx:0.1
+
+docker run -d --name davis-nginx -p 80:80 0cc035f9ab6a
+docker run -d --name davis-nginx8081 -p 8081:80 0cc035f9ab6a
+docker run -d --name davis-nginx8082 -p 8082:80 0cc035f9ab6a
+
+docker run -d  -P 0cc035f9ab6a
+docker run -d  -p 80:80 0cc035f9ab6a
+docker run -d  -p 8081:80 0cc035f9ab6a
+docker run -d  -p 8082:80 0cc035f9ab6a
+
+
+netstat -na|grep 8080
+touch index.html
+vi index.html
+<html>
+<h1>Docker is fun!</h1>
+</html>
+cat index.html
+find / -name "index.html"
+docker cp index.html 77acb6591ab6://usr/share/nginx/html/index.html
+容器的改动是临时的，重启就丢失
+
+创建镜像方法1
+docker ps
+docker commit -m 'fun' 77acb6591ab6 nginx-fun1
+docker images
+docker run -d -p 8080:80 nginx-fun1
+curl http://127.0.0.1:8080
+
+创建镜像方法2
+docker ps
+mkdir dl
+cd dl
+vi Dockerfile
+FROM nginx-fun:latest
+MAINTAINER Davis
+EXPOSE 80
+docker build -t nginx-fun2 .
+docker run -d -p 8081:80 nginx-fun2
+curl http://127.0.0.1:8081
+
+
+Login Succeeded
+
+docker tag hello-world leaphe/hello-world
+
+docker push leaphe/hello-world
+
+The push refers to repository [docker.io/leaphe/hello-world]
+af0b15c8625b: Layer already exists 
+latest: digest: sha256:92c7f9c92844bbbb5d0a101b22f7c2a7949e40f8ea90c8b3bc396879d95e899a size: 524
+
+
+/用户/hexizan/资源库/Containers/com.docker.docker
+
+netstat -na|grep 8080
+
+
+docker exec -it cbd9fa937f00 bash
+
+find / -name "index.jsp"
+
+exit
+
+pwd
+cat index.jsp
+<html>
+<h1>Tomcat is run!</h1>
+</html>
+docker cp index.jsp cbd9fa937f00:/usr/local/tomcat/webapps/ROOT/index.jsp
+
+docker cp ~/documents/SpringBootDemo/index.jsp 486a31a2c908:/usr/local/tomcat/webapps/ROOT/index.jsp
+
+docker cp ~/documents/SpringBootDemo/jenkins.war 486a31a2c908:/usr/local/tomcat/webapps/
+
+
+docker cp  /Users/hexizan/Documents/SpringBootDemo/out/artifacts/spring_boot_demo_jar a13ab083378c:/usr/local/tools
+
+docker exec -it a13ab083378c bash
+
+vi /root/.jenkins/secrets/initialAdminPassword
+cat /root/.jenkins/secrets/initialAdminPassword
+4a9294dedd4742e292e3a2b976c3ed6b
+
+davis 
+kpds@512
+man -version
+exit
+docker commit -m “addmj” 486a31a2c908 tomcat1
+nohup java -jar spring-boot-demo.jar>log.file  2>&1 &
+
+nohup java -jar /usr/local/tools/spring_boot_demo_jar/spring-boot-demo.jar>log.file  2>&1 &
+
+root@a13ab083378c:/usr/local/tools/spring_boot_demo_jar# curl http://127.0.0.1:8081
+{"welcome6":"6","welcome1":"1","random11":"yFvpdYZSDtnpbisB"}root@a13ab083378c:/usr/local/tools/spring_boot_demo_jar# 
+
+root@a13ab083378c:/usr/local/tools/spring_boot_demo_jar# curl http://127.0.0.1:8081
+{"welcome6":"6","welcome1":"1","random11":"yFvpdYZSDtnpbisB"}root@a13ab083378c:/usr/local/tools/spring_boot_demo_jar# 
+
+cd /usr/local/tools/spring_boot_demo_jar
+java -jar spring_boot_demo.jar
+https://blog.csdn.net/kangcool_sn/article/details/86715681
+
+
+docker commit -m “addmjs” a13ab083378c tomcat2
+
+
+docker run -i -t -d -p 8080:8080 -p 8081:8081 tomcat2 /bin/bash /usr/local/tools/start.sh
+
+
+docker run -idt -p 8080:8080 -p 8081:8081 tomcat2 /bin/bash /usr/local/tools/start.sh
+
+
+
+docker exec -it 9e6eccfcaf0a bash
+cd /usr/local/tools
+vi start.sh
+
+#!/bin/bash
+nohup java -jar /usr/local/tools/spring_boot_demo_jar/spring-boot-demo.jar>log.file  2>&1 &
+
+chmod u+x  start.sh
+
+docker commit -m “addmjss” a13ab083378c tomcat3
+
+docker run -d -p 8080:8080 -p 8081:8081 tomcat3
+
+docker exec -it 1c498e797477 bash
+
+cd /usr/local/tools
+
+sh start.sh
+
+exit
+
+curl http://127.0.0.1:8080/
+curl http://127.0.0.1:8080/jenkins
+curl http://127.0.0.1:8081
+
+
+—mysql
+docker run -d  --rm -p 3307:3306 \
+-e MYSQL_ROOT_PASSWORD=kpds@512 mysql:5.6
+
+
+docker run  -d --rm \
+-v /Users/hexizan/documents/sofeware/mysql/conf:/etc/mysql/conf.d \
+-v /Users/hexizan/documents/sofeware/mysql/data:/var/lib/mysql \
+-v /Users/hexizan/documents/sofeware/mysql/logs:/logs \
+-p 3307:3306 -e MYSQL_ROOT_PASSWORD=123456 mysql:5.6
+
+docker exec -it 4328a805c3a1 bash
+mysql
+mysql -u root -p
+kpds@512
+use dockermysqldb;
+select * from a;
+exit;
+
+ifconfig -a
+
+/用户/hexizan/资源库/Containers/com.docker.docker
+netstat -na|grep 8080
+
+Alpine 操作系统是一个面向安全的轻型 Linux 发行版。
+docker pull alpine:3.8
+docker run alpine:3.8  echo '123'
+docker run alpine:3.8  ls
+
+查找包含指定内容的文件就是用grep这个命令
+grep 'name' -r /grep '指定内容' -r 目录上述命令就是在根目录下递归查找包含name内容的文件
+
+
+mkdir tomcat6
+
+docker build -t tomcat6:latest .
+cd tomcat6/
+touch Dockerfile
+vi Dockerfile
+
+FROM tomcat5
+EXPOSE 8080/tcp
+EXPOSE 8081/tcp
+CMD /usr/local/tools/start.sh
+
+CMD ["/bin/echo", "this is a echo test"] 
+是不是感觉很像开机启动项，你可以暂时这样理解。
+
+cd ..
+cd tools
+ls
+cat start.sh 
+
+#!/bin/bash
+/usr/local/tomcat/bin/startup.sh
+java -jar /usr/local/tools/spring_boot_demo_jar/spring-boot-demo.jar
+
+
+docker save -o tomcat6.tar tomcat6
+ls tomcat6.tar
+
+docker images
+docker rmi -f tomcat6
+docker load -i tomcat6.tar 
+
+docker run -d -p 8080:8080 -p 8081:8081 tomcat6
+docker ps
+
+
+docker pull node
